@@ -2,8 +2,11 @@ import sys
 from read_write import ReadWrite
 from search import FilmFestivalSearch
 
-# Printing Data
+# Helper function
 def print_list_of_films(films):
+    '''
+    pretty prints a list of films, with their similarity score.
+    '''
     print("")
     for film in films:
         print("year: \t\t{0}".format(film[0]))
@@ -15,7 +18,9 @@ def print_list_of_films(films):
         print("")
 
 def format_print_for_festival_network(results):
-    # assuming results = [[],[],...]
+    '''
+    format printing for the festival network search
+    '''
     # create dictionary from results
     byFestival = {}
 
@@ -35,6 +40,9 @@ def format_print_for_festival_network(results):
         print_list_of_films(byFestival[fest])
 
 def format_print_for_director(results):
+    '''
+    format printing for the director's film's search
+    '''
     # assuming results = [[],[],...]
     print("")
     print(results[0][2])

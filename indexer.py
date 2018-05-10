@@ -2,9 +2,15 @@ import string
 from read_write import ReadWrite
 
 class FilmFestivalDataIndexer:
+    '''
+    Creates the title and director vocabularies and document vectors for the
+    film data scraped from webscraper.py then writes theis data to files.
+    '''
 
     def create_vocabulary(self,data):
-        # data = [ ["the","tree","of","life"], ["iron","man"] ]
+        '''
+        creates a vocabulary from an array of an array of words.
+        '''
         vocab = {}
 
         for vector in data:
@@ -14,14 +20,13 @@ class FilmFestivalDataIndexer:
                         vocab[word] = vocab[word] + 1
                     else:
                         vocab[word] = 1
-                else:
-                    print("SKIP",vector)
+
         return vocab
 
     def create_vocabulary_vectors(self,vocabulary,data):
-        # vocabulary = ["the","tree","it", ...]
-        # data = [ ["the","tree","of","life"], ["iron","man"] ]
-
+        '''
+        creates a document vector from the given vocabulary and string vectors.
+        '''
         # init vocab vectors
         vocab_vectors = []
         for i in range(0,len(data)):
@@ -42,6 +47,11 @@ class FilmFestivalDataIndexer:
         return vocab_vectors
 
     def index(self):
+        '''
+        Indexes all the data. 1) creates title and director vocabularies 2) creates
+        the title and director document vectors 3) writes this data to files.
+        '''
+
         print("")
         print("Reading in scraped film data...")
         io = ReadWrite()
@@ -64,7 +74,7 @@ class FilmFestivalDataIndexer:
         io.write_vocab("title_vocab.txt", title_vocab)
 
 
-        # 2. Create Film Director Vocabulary, write to file
+        # Create Film Director Vocabulary, write to file
             # format
         director_strings = [film[2] for film in film_data]
         director_strings_lc = [film.lower() for film in director_strings]
@@ -80,7 +90,7 @@ class FilmFestivalDataIndexer:
         print("Writing Film Director Vocabulary to file: director_vocab.txt")
         io.write_vocab("director_vocab.txt", director_vocab)
 
-        # 3. Create vocabulary vectors for each title document, write to file
+        # 2. Create vocabulary vectors for each title document, write to file
             # create vectors
         print("")
         print("Creating Film Title Vocabulary Vectors...")
@@ -91,7 +101,7 @@ class FilmFestivalDataIndexer:
         print("Writing Film Title Vocabulary Vectors to file: title_vocab_vectors.txt")
         io.write_vocab_vectors("title_vocab_vectors.txt", title_vocab_vectors)
 
-        # 4. Create vocabulary vectors for each director document, write to file
+        # Create vocabulary vectors for each director document, write to file
             # create vectors
         print("")
         print("Creating Film Director Vocabulary Vectors...")

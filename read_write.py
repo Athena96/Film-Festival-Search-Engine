@@ -1,9 +1,15 @@
 import os.path
 
 class ReadWrite:
+    '''
+    Responsible for reading and writing from files
+    '''
 
     @staticmethod
     def read_vocab(filename):
+        '''
+        reads a vocabulary from a file
+        '''
         file = open(filename, 'r')
 
         vocab = {}
@@ -21,6 +27,10 @@ class ReadWrite:
 
     @staticmethod
     def read_vocab_plain(filename):
+        '''
+        reads a vocabulary from a file, but saves in ordered array instead of
+            dictionary.
+        '''
         file = open(filename, 'r')
 
         vocab = []
@@ -37,6 +47,9 @@ class ReadWrite:
 
     @staticmethod
     def read_vocab_vectors(filename):
+        '''
+        reads vocabulary vecotrs from file
+        '''
         file = open(filename, 'r')
 
         vectors = []
@@ -52,6 +65,9 @@ class ReadWrite:
 
     @staticmethod
     def read_film_data(filename):
+        '''
+        reads film data from filename
+        '''
         file = open(filename, 'r')
 
         film_data = []
@@ -68,6 +84,9 @@ class ReadWrite:
 
     @staticmethod
     def write_film_data(filename,films):
+        '''
+        writes film data to filename
+        '''
         fileContent = ""
 
         for idx, film in enumerate(films):
@@ -85,6 +104,9 @@ class ReadWrite:
 
     @staticmethod
     def write_vocab(filename, vocabulary):
+        '''
+        writes vocabularies to filename
+        '''
         fileContent = ""
 
         for idx, term in enumerate(vocabulary):
@@ -101,6 +123,9 @@ class ReadWrite:
 
     @staticmethod
     def write_vocab_vectors(filename, vectors):
+        '''
+        writes vocabulary vectors to filename
+        '''
         fileContent = ""
 
         for idx, vector in enumerate(vectors):

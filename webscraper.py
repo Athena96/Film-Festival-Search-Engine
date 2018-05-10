@@ -5,15 +5,27 @@ from bs4 import BeautifulSoup
 from read_write import ReadWrite
 
 class FilmFestivalWikiWebScraper:
+    '''
+    Scrapes data from 2 types of wiki pages:
+    1) festival awards pages. which list films that won awards over the years
+        at a particular festival
+    2) screened films pages. which list the films that screened at a particular
+        festival during a particular year.
+    '''
 
     def good_quality(self,word_vector):
-
+        '''
+        ensures the scrped film has no missing data.
+        '''
         for word in word_vector:
             if word == "" or word == " ":
                 return False
         return True
 
     def scrape_screened_wiki(self, festival, year, link):
+        '''
+        scrape Type_2 wiki page
+        '''
         # place to store scraped data
         scraped_screened_films = []
 
@@ -82,6 +94,9 @@ class FilmFestivalWikiWebScraper:
         return scraped_screened_films
 
     def scrape_awards_wiki(self, festival, link):
+        '''
+        scrape Type_1 wiki page
+        '''
         # place to store scraped data
         scraped_award_films = []
 
@@ -155,6 +170,11 @@ class FilmFestivalWikiWebScraper:
         return scraped_award_films
 
     def merge_award_and_screened_data(self,award_films, screened_films):
+        '''
+        since there will always be one overlapping film between these two data sets
+        for a particular year (the film that one the award). this method deleted that
+        data so there are no duplicates.
+        '''
         local_scraped_awards_page_data = award_films
         local_scraped_screening_data = screened_films
 

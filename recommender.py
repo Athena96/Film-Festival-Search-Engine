@@ -13,7 +13,9 @@ class FilmRecommender:
         self.data = io.read_film_data("film_data.txt")
 
     def sim(self,film1, film2):
-        # this is the similarity scoreing function
+        '''
+        scores the similarity between two films
+        '''
 
         # year similarity
         sy = 0
@@ -47,15 +49,19 @@ class FilmRecommender:
         return (sy + dMatch + cMatch + fMatch) / 4.0
 
     def film_in_list(self,film,list):
-        # helper function, decides of film is in list
+        '''
+        helper func, check to see if a film is in a list
+        '''
         for f in list:
             if f[1] == film[1]:
                 return True
         return False
 
     def recommend(self,likes):
-        # the recommender function, it iterates over data, get similarityscore
-        # for all films in db and the user's liked films
+        '''
+        takes user likes array and scores each like with each film in database
+        returns top 5
+        '''
         scored = []
 
         for film in self.data:

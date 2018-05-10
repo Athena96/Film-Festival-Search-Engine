@@ -3,8 +3,12 @@ import math
 from read_write import ReadWrite
 
 class FilmFestivalSearch:
+    '''
+    Responsible for searching the film database
+    '''
 
     def __init__(self):
+        # load data
         io = ReadWrite()
 
         self.film_data = io.read_film_data("film_data.txt")
@@ -15,6 +19,7 @@ class FilmFestivalSearch:
         self.title_vocab_vectors = io.read_vocab_vectors("title_vocab_vectors.txt")
         self.director_vocab_vectors = io.read_vocab_vectors("director_vocab_vectors.txt")
 
+        # compute avg doc length for title and director
         ts = 0
         ds = 0
 
@@ -36,6 +41,10 @@ class FilmFestivalSearch:
 
 
     def decode_vocab_vector(self,encoded_vector):
+        '''
+        decodes a document/query vector from the compressed form to the
+        large "0's and 1's" form to use in scoreing.
+        '''
         decoded_vector = [0] * encoded_vector[0]
 
         for index in encoded_vector[1:len(encoded_vector)]:
@@ -46,6 +55,10 @@ class FilmFestivalSearch:
 
 
     def vocab_vector_from_query(self,phrase,vocabulary):
+        '''
+        creates a vocabulary vector using the given phrase
+        this is used to convert the user's input to a vocabulary vector.
+        '''
         # vocabulary = ["the","tree","it", ...]
         # phrase = ["the", "tree", ...]
 
@@ -65,6 +78,12 @@ class FilmFestivalSearch:
         return vocab_vector
 
     def score(self,query_vector,doc_vector,vocabulary, avg_dl):
+        '''
+        *
+        This is the main scoreing, where VSM is implemented. It also uses
+        IDF Weighting and Document Length Normalization.
+        *
+        '''
         score = 0.0
 
         for i in range(0,len(vocabulary.keys())):
@@ -95,14 +114,16 @@ class FilmFestivalSearch:
 
 
     def matching_search(self,filmTitle,director):
-        # the matching_search is the search algorithm used for:
-        # - film festival network search
-        # - director's films search
-        # it first decides which type of search it is doing, then it iterates over
-        #   the data and if it finds exact matches, it saves the results... otherwise
-        #   the algorithm realizes that the user is trying to search for something but
-        #   doesnt know the exact name, so it does a general search with the given info
-        #   to help user do correct search
+        '''
+        the matching_search is the search algorithm used for:
+        - film festival network search
+        - director's films search
+        it first decides which type of search it is doing, then it iterates over
+          the data and if it finds exact matches, it saves the results... otherwise
+          the algorithm realizes that the user is trying to search for something but
+          doesnt know the exact name, so it does a general search with the given info
+          to help user do correct search
+         '''
 
         formatedDoc = ""
         id = 0
@@ -149,7 +170,14 @@ class FilmFestivalSearch:
             return (results,True)
 
     def search(self,title_query,director_query):
-
+        '''
+        *
+        This is the main searching function. It first formats the user's
+        title/director query, creates vocabulary vectors from this data, then
+        scores these vectors with each document vector from the film database.
+        and finally it returns the top 5 matches.
+        *
+        '''
         # formate the user input
         title_query_parts = title_query.split(" ")
         title_query_parts_lc = [title.lower() for title in title_query_parts]
@@ -190,9 +218,3 @@ class FilmFestivalSearch:
 
         results = sorted(ranking, key=lambda tup: tup[1], reverse=True)
         return results[0:5]
-
-# se = FilmFestivalSearch()
-# #result = se.search("The tree of","")
-# result = se.matching_search("the tree of life","-")
-# for r in result:
-#     print(r)
